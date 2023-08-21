@@ -11,7 +11,7 @@ extern std::string rank;
 extern std::string register_date;
 extern std::string expire_date;
 extern std::string hwid;
-bool loginRequest(std::string username, std::string password);
+bool loginRequest(std::string username, std::string password, std::string key);
 bool registerRequest(std::string username, std::string password, std::string key);
 
 #endif

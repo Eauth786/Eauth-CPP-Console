@@ -17,28 +17,58 @@ void menu() {
     switch (option) {
         case 1:
             system("cls");
-            std::cout << "Username: ";
-            std::cin >> username;
-            std::cout << "Password: ";
-            std::cin >> password;
-            if (loginRequest(username, password))
-            {
-                // Code to execute if login is successful
+            std::cout << "1/ Username and Password - 2/ Key" << "\n";
+            std::cout << "-> ";
+            std::cin >> option;
+            switch (option) {
+            case 1:
                 system("cls");
-                std::cout << logged_message << "\n";
-                std::cout << "Username: " << username << "\n";
-                std::cout << "Rank: " << rank << "\n";
-                std::cout << "Create Date: " << register_date << "\n";
-                std::cout << "Expire Date: " << expire_date << "\n";
-                std::cout << "Hwid: " << hwid;
-                std::this_thread::sleep_for(std::chrono::milliseconds(3500));
-                menu();
-            }
-            else
-            {
-                std::cout << error_message;
-                std::this_thread::sleep_for(std::chrono::milliseconds(3500));
-                menu();
+                std::cout << "Username: ";
+                std::cin >> username;
+                std::cout << "Password: ";
+                std::cin >> password;
+                if (loginRequest(username, password, ""))
+                {
+                    // Code to execute if login is successful
+                    system("cls");
+                    std::cout << logged_message << "\n";
+                    std::cout << "Username: " << username << "\n";
+                    std::cout << "Rank: " << rank << "\n";
+                    std::cout << "Joined: " << register_date << "\n";
+                    std::cout << "Expires: " << expire_date << "\n";
+                    std::cout << "Hwid: " << hwid;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(3500));
+                    menu();
+                }
+                else
+                {
+                    std::cout << error_message;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(3500));
+                    menu();
+                }
+            case 2:
+                system("cls");
+                std::cout << "Key: ";
+                std::cin >> key;
+                if (loginRequest("", "", key))
+                {
+                    // Code to execute if login is successful
+                    system("cls");
+                    std::cout << logged_message << "\n";
+                    std::cout << "Key: " << key << "\n";
+                    std::cout << "Rank: " << rank << "\n";
+                    std::cout << "Joined: " << register_date << "\n";
+                    std::cout << "Expires: " << expire_date << "\n";
+                    std::cout << "Hwid: " << hwid;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(3500));
+                    menu();
+                }
+                else
+                {
+                    std::cout << error_message;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(3500));
+                    menu();
+                }
             }
 
         case 2:

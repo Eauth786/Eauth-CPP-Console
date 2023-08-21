@@ -9,6 +9,7 @@
 #include <iomanip>
 #include "rapidjson/document.h"
 #include <chrono>
+#include <sstream>
 
 // Required configuration
 const std::string ACCOUNT_KEY = std::string(skCrypt("")); // Your account key goes here;
@@ -179,11 +180,27 @@ bool initRequest() {
 }
 
 // Login request
-bool loginRequest(std::string username, std::string password) {
+bool loginRequest(std::string username, std::string password, std::string key) {
     if (login) {
         return login;
     }
 
+    if (key.length() > 0) {
+        username = password = key;
+        std::string register_data = std::string(skCrypt("sort=register&sessionid=")) + session_id + std::string(skCrypt("&username=")) + username + std::string(skCrypt("&password=")) + password + std::string(skCrypt("&key=")) + key + std::string(skCrypt("&hwid=")) + getHWID();
+        std::string json = runRequest(register_data);
+        rapidjson::Document doc;
+        doc.Parse(json.c_str());
+
+        std::string message = doc["message"].GetString();
+
+        if (message == std::string(skCrypt("register_success")) || message == std::string(skCrypt("name_already_used"))) {
+            login = true;
+        }
+        else {
+            raiseError(invalid_key_message);
+        }
+    }
     std::string login_data = std::string(skCrypt("sort=login&sessionid=")) + session_id + std::string(skCrypt("&username=")) + username + std::string(skCrypt("&password=")) + password + std::string(skCrypt("&hwid=")) +getHWID();
     std::string json = runRequest(login_data);
     rapidjson::Document doc;
@@ -195,6 +212,17 @@ bool loginRequest(std::string username, std::string password) {
         rank = doc["rank"].GetString();
         register_date = doc["register_date"].GetString();
         expire_date = doc["expire_date"].GetString();
+        std::string word = "later";
+        std::stringstream ss(expire_date);
+        std::string token;
+        expire_date = "";
+        while (ss >> token) {
+            if (token != word) {
+                expire_date += token + " ";
+            }
+        }
+        expire_date.pop_back(); // remove the last word
+
         hwid = doc["hwid"].GetString();
     }
     else if (message == std::string(skCrypt("invalid_account_key"))) {
@@ -240,8 +268,8 @@ bool registerRequest(std::string username, std::string password, std::string key
         return signup;
     }
     
-    std::string login_data = std::string(skCrypt("sort=register&sessionid=")) + session_id + std::string(skCrypt("&username=")) + username + std::string(skCrypt("&password=")) + password + std::string(skCrypt("&key=")) + key + std::string(skCrypt("&hwid=")) + getHWID();
-    std::string json = runRequest(login_data);
+    std::string register_data = std::string(skCrypt("sort=register&sessionid=")) + session_id + std::string(skCrypt("&username=")) + username + std::string(skCrypt("&password=")) + password + std::string(skCrypt("&key=")) + key + std::string(skCrypt("&hwid=")) + getHWID();
+    std::string json = runRequest(register_data);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
