@@ -2,147 +2,20 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="eauth\eauth.cpp">
-      <Filter>eauth</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="eauth">
       <UniqueIdentifier>{21acdf3c-e198-4797-8d8f-85557c161ff6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="eauth\rapidjson">
-      <UniqueIdentifier>{9f2e4179-8d60-4d06-b90f-73b5c229c2ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="eauth\rapidjson\error">
-      <UniqueIdentifier>{3ad36ee0-1394-4351-b36c-5edf11174108}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="eauth\rapidjson\msinttypes">
-      <UniqueIdentifier>{26280283-e7b3-497c-a123-3428f0febcb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="eauth\rapidjson\internal">
-      <UniqueIdentifier>{bce73245-8a26-411f-86a5-89af6e406b02}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="eauth\eauth.h">
       <Filter>eauth</Filter>
     </ClInclude>
-    <ClInclude Include="eauth\rapidjson\allocators.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\cursorstreamwrapper.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\document.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\encodedstream.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\encodings.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\filereadstream.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\filewritestream.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\fwd.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\istreamwrapper.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\memorybuffer.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\memorystream.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\ostreamwrapper.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\pointer.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\prettywriter.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\rapidjson.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\reader.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\schema.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\stream.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\stringbuffer.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\uri.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\writer.h">
-      <Filter>eauth\rapidjson</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\biginteger.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\clzll.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\diyfp.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\dtoa.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\ieee754.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\itoa.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\meta.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\pow10.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\regex.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\stack.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\strfunc.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\strtod.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\internal\swap.h">
-      <Filter>eauth\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\msinttypes\inttypes.h">
-      <Filter>eauth\rapidjson\msinttypes</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\msinttypes\stdint.h">
-      <Filter>eauth\rapidjson\msinttypes</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\error\en.h">
-      <Filter>eauth\rapidjson\error</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\rapidjson\error\error.h">
-      <Filter>eauth\rapidjson\error</Filter>
-    </ClInclude>
-    <ClInclude Include="eauth\skCrypter.h">
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="eauth\Eauth-CPP-Library.lib">
       <Filter>eauth</Filter>
-    </ClInclude>
+    </Library>
   </ItemGroup>
 </Project>
