@@ -112,6 +112,15 @@ int main() {
         exit(1);
     }
 
+    // Download file into a specific path
+    /*if (!writeBytesToFile("your file id", "file.format", "./path")) {
+        std::cout << error_message;
+        std::this_thread::sleep_for(std::chrono::milliseconds(3500));
+
+        // Exit the program to indicate an error
+        exit(1);
+    }*/
+
     // Main menu
     menu();
 

@@ -10,6 +10,8 @@
 #include "rapidjson/document.h"
 #include <chrono>
 #include <sstream>
+#include <zlib.h>
+#include <fstream>
 
 // Required configuration
 const std::string ACCOUNT_KEY = std::string(skCrypt("")); // Your account key goes here;
@@ -26,9 +28,12 @@ const auto busy_sessions_message = skCrypt("Please try again later!");
 const auto unavailable_session_message = skCrypt("Invalid session. Please re-launch the app!");
 const auto used_session_message = skCrypt("Why did the computer go to therapy? Because it had a case of 'Request Repeatitis' and couldn't stop asking for the same thing over and over again!");
 const auto overcrowded_session_message = skCrypt("Session limit exceeded. Please re-launch the app!");
+const auto unauthorized_session_message = skCrypt("Unauthorized session.");
 const auto expired_session_message = skCrypt("Your session has timed out. Please re-launch the app!");
 const auto invalid_user_message = skCrypt("Incorrect login credentials!");
+const auto invalid_file_message = skCrypt("Incorrect file credentials!");
 const auto banned_user_message = skCrypt("Access denied!");
+const auto invalid_path_message = skCrypt("Oops, the bytes of the file could not be written. Please check the path of the file!");
 const auto incorrect_hwid_message = skCrypt("Hardware ID mismatch. Please try again with the correct device!");
 const auto expired_user_message = skCrypt("Your subscription has ended. Please renew to continue using our service!");
 const auto used_name_message = skCrypt("Username already taken. Please choose a different username!");
@@ -54,6 +59,8 @@ std::string expire_date = std::string(skCrypt(""));
 std::string hwid = std::string(skCrypt(""));
 std::string user_hwid = std::string(skCrypt(""));
 
+std::string file_to_download = std::string(skCrypt(""));
+
 // Function takes an input string and calculates its SHA-512 hash using the OpenSSL library
 std::string sha512(const std::string& input) {
     unsigned char hash[SHA512_DIGEST_LENGTH];
@@ -65,6 +72,116 @@ std::string sha512(const std::string& input) {
     }
 
     return ss.str();
+}
+
+// Base64
+char lookupTable[] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+                       'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                       'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+                       'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+                       'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                       'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                       'w', 'x', 'y', 'z', '0', '1', '2', '3',
+                       '4', '5', '6', '7', '8', '9', '+', '/' };
+
+char base64Decode(char c) {
+    if (c == '=') {
+        return 0;
+    }
+    else {
+        for (int x = 0; x < 64; x++) {
+            if (lookupTable[x] == c) {
+                return (char)x;
+            }
+        }
+        return 0;
+    }
+}
+
+std::string base64Decode(const std::string& data) {
+    int length, length2, length3;
+    int blockCount;
+    int paddingCount = 0;
+    int dataLength = data.length();
+    length = dataLength;
+    blockCount = length / 4;
+    length2 = blockCount * 3;
+
+    for (int x = 0; x < 2; x++) {
+        if (data[length - x - 1] == '=') {
+            paddingCount++;
+        }
+    }
+
+    char* buffer = new char[length];
+    char* buffer2 = new char[length2];
+
+    for (int x = 0; x < length; x++) {
+        buffer[x] = base64Decode(data[x]);
+    }
+
+    for (int x = 0; x < blockCount; x++) {
+        char b1 = buffer[x * 4 + 0];
+        char b2 = buffer[x * 4 + 1];
+        char b3 = buffer[x * 4 + 2];
+        char b4 = buffer[x * 4 + 3];
+
+        char c1 = (b1 << 2) | (b2 >> 4);
+        char c2 = (b2 << 4) | (b3 >> 2);
+        char c3 = (b3 << 6) | b4;
+
+        buffer2[x * 3 + 0] = c1;
+        buffer2[x * 3 + 1] = c2;
+        buffer2[x * 3 + 2] = c3;
+    }
+
+    length3 = length2 - paddingCount;
+
+    std::string result(buffer2, buffer2 + length3);
+
+    delete[] buffer;
+    delete[] buffer2;
+
+    return result;
+}
+
+// Gzip
+std::string decompressString(const std::string& compressedString) {
+    std::string decompressedString;
+
+    z_stream strm;
+    strm.zalloc = Z_NULL;
+    strm.zfree = Z_NULL;
+    strm.opaque = Z_NULL;
+    strm.avail_in = 0;
+    strm.next_in = Z_NULL;
+
+    int ret = inflateInit(&strm);
+    if (ret != Z_OK) {
+        return decompressedString;
+    }
+
+    strm.avail_in = compressedString.size();
+    strm.next_in = (Bytef*)compressedString.data();
+
+    char buffer[32768];
+
+    do {
+        strm.avail_out = sizeof(buffer);
+        strm.next_out = (Bytef*)buffer;
+
+        ret = inflate(&strm, Z_NO_FLUSH);
+        if (ret < 0) {
+            inflateEnd(&strm);
+            return decompressedString;
+        }
+
+        decompressedString.append(buffer, sizeof(buffer) - strm.avail_out);
+    } while (strm.avail_out == 0);
+
+    inflateEnd(&strm);
+
+    return decompressedString;
 }
 
 // Generate header token
@@ -312,4 +429,64 @@ bool registerRequest(std::string username, std::string password, std::string key
     }
 
     return signup;
+}
+
+// Download request
+bool downloadRequest(std::string fileid) {
+    std::string file_data = std::string(skCrypt("sort=download&sessionid=")) + session_id + std::string(skCrypt("&fileid=")) + fileid;
+    std::string json = runRequest(file_data);
+    rapidjson::Document doc;
+    doc.Parse(json.c_str());
+
+    std::string message = doc["message"].GetString();
+    if (message == std::string(skCrypt("download_success"))) {
+        file_to_download = doc["bytes"].GetString();
+        return true;
+    }
+    else if (message == std::string(skCrypt("invalid_account_key"))) {
+        raiseError(invalid_account_key_message);
+        return false;
+    }
+    else if (message == std::string(skCrypt("invalid_request"))) {
+        raiseError(invalid_request_message);
+        return false;
+    }
+    else if (message == std::string(skCrypt("session_unavailable"))) {
+        raiseError(unavailable_session_message);
+        return false;
+    }
+    else if (message == std::string(skCrypt("session_unauthorized"))) {
+        raiseError(unauthorized_session_message);
+        return false;
+    }
+    else if (message == std::string(skCrypt("session_expired"))) {
+        raiseError(expired_session_message);
+        return false;
+    }
+    else if (message == std::string(skCrypt("invalid_file"))) {
+        raiseError(invalid_file_message);
+        return false;
+    }
+}
+
+// Write file
+bool writeBytesToFile(std::string fileid, const std::string& filename, const std::string& path) {
+    std::filesystem::create_directories(path); // Create the directory path if it doesn't exist
+    
+    if (!downloadRequest(fileid)) {
+        return false;
+    }
+
+    std::string bytes = base64Decode(file_to_download);
+
+    std::ofstream file(path + "/" + filename, std::ios::binary);
+    if (file.is_open()) {
+        file.write(bytes.data(), bytes.size());
+        file.close();
+        return true;
+    }
+    else {
+        raiseError(invalid_path_message);
+        return false;
+    }
 }
