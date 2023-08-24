@@ -13,30 +13,25 @@ Documentation
 https://eauth.us.to/docs/
 ![Eauth c++ cpp console application example SDK](image.png)
 
-Installation
+Static Library
 -------------
 
-You can download and install cpr, and OpenSSL using the [vcpkg](https://github.com/Microsoft/vcpkg) dependency manager:
-```Bash
-git clone https://github.com/Microsoft/vcpkg.git
-cd vcpkg
-bootstrap-vcpkg.sh
-vcpkg install cpr:x86-windows
-vcpkg install cpr:x64-windows
-vcpkg install openssl:x86-windows
-vcpkg install openssl:x64-windows
-vcpkg integrate install
-```
+https://github.com/Eauth786/Eauth-CPP-Library
 
 Configuration
 -------------
 
-Navigate to `eauth/eauth.cpp`, and fill these lines of code:
+In your `main()` function, the first step is to initiate a request with your credentials:
 
 ```cpp
-// Required configuration
-const std::string ACCOUNT_KEY = std::string(skCrypt("")); // Your account key goes here;
-const std::string APPLICATION_KEY = std::string(skCrypt("")); // Your application key goes here
-const std::string APPLICATION_ID = std::string(skCrypt("")); // Your application ID goes here;
-const std::string APPLICATION_VERSION = std::string(skCrypt("1.0")); // Your application version goes here;
+int main() {
+    // Initialization request (required)
+    if (!initRequest("your_account_key", "your_application_key", "your_application_id", "1.0")) { // --> 1.0 means your app version
+        std::cout << error_message;
+        std::this_thread::sleep_for(std::chrono::milliseconds(3500));
+
+        // Exit the program to indicate an error
+        exit(1);
+    }
+}
 ```
