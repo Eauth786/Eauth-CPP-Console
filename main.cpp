@@ -104,7 +104,7 @@ void menu() {
 int main() {
     
     // Initialization request (required)
-    if (!initRequest("your_account_key", "your_application_key", "your_application_id", "1.0")) {
+    if (!initRequest("account_key", "application_key", "application_id", "1.0")) {
         std::cout << error_message;
         std::this_thread::sleep_for(std::chrono::milliseconds(3500));
 
@@ -113,13 +113,15 @@ int main() {
     }
 
     // Download file into a specific path
-    /*if (!writeBytesToFile("your_file_id", "file.format", "./path")) {
+    /*
+    if (!writeBytesToFile("file_id", "file.format", "./path")) {
         std::cout << error_message;
         std::this_thread::sleep_for(std::chrono::milliseconds(3500));
 
         // Exit the program to indicate an error
         exit(1);
-    }*/
+    }
+    */
 
     // Main menu
     menu();
