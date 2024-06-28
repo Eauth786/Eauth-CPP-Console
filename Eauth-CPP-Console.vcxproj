@@ -151,7 +151,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <Optimization>Disabled</Optimization>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <StringPooling>true</StringPooling>
     </ClCompile>
     <Link>
@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="eauth\Eauth-CPP-Library.lib" />
+    <Library Include="eauth\libcurl_a.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

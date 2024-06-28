@@ -17,5 +17,6 @@
     <Library Include="eauth\Eauth-CPP-Library.lib">
       <Filter>eauth</Filter>
     </Library>
+    <Library Include="eauth\libcurl_a.lib" />
   </ItemGroup>
 </Project>
