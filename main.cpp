@@ -112,6 +112,11 @@ int main() {
         exit(1);
     }
 
+    // Ban user HWID and IP (You can use this if you have code to detect if users are trying to crack your application or reverse it)
+    /*
+    banUser();
+    */
+
     // Download file into a specific path
     /*
     if (!writeBytesToFile("file_id", "file.format", "./path")) {
