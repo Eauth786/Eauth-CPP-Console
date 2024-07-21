@@ -31,7 +31,7 @@ void menu() {
                 {
                     // Code to execute if login is successful
                     system("cls");
-                    std::cout << logged_message << "\n";
+                    std::cout << "You have successfully logged in." << "\n";
                     std::cout << "Username: " << username << "\n";
                     std::cout << "Rank: " << rank << "\n";
                     std::cout << "Joined: " << register_date << "\n";
@@ -54,7 +54,7 @@ void menu() {
                 {
                     // Code to execute if login is successful
                     system("cls");
-                    std::cout << logged_message << "\n";
+                    std::cout << "You have successfully logged in." << "\n";
                     std::cout << "Key: " << key << "\n";
                     std::cout << "Rank: " << rank << "\n";
                     std::cout << "Joined: " << register_date << "\n";
@@ -83,7 +83,7 @@ void menu() {
             {
                 // Code to execute if register is successful
                 system("cls");
-                std::cout << registered_message;
+                std::cout << "You have successfully registered.";
                 std::this_thread::sleep_for(std::chrono::milliseconds(3500));
                 menu();
             }
